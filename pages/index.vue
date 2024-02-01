@@ -1,0 +1,66 @@
+<template>
+    <h4>Hello</h4>
+    <img width="100px" :src="profile?.pictureUrl">
+    <div>Name: {{ profile?.displayName }}</div>
+    <div>Uuid: {{ profile?.userId }}</div>
+    <div>
+        <button @click="logout">Logout</button>
+    </div>
+
+    <div>
+        <label for="message-input">Push Message:</label><br />
+        <input id="lineMessage" type="text" v-model="lineMessage" placeholder="message">
+        <button @click="send">Send</button>
+    </div>
+</template>
+
+<script setup lang="ts">
+    import liff from '@line/liff';
+    import type { Profile } from '@liff/get-profile';
+
+    const profile = ref<Profile | undefined>(undefined)
+    const lineUid = ref('')
+    const lineMessage = ref('')
+
+    onMounted( async() =>{
+        if(liff.isLoggedIn()){
+            profile.value = await liff.getProfile()
+            lineUid.value = profile.value.userId
+            console.log(profile.value)
+        }else{
+            await liff.login()
+        }
+   })
+
+    const logout = async() => {
+        if (liff.isLoggedIn()) {
+            liff.logout();
+            window.location.reload();
+        }
+    }
+
+    const send = async () =>{
+        console.log(lineMessage.value)
+        const response = await useFetch('https://api.line.me/v2/bot/message/push',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
+            },
+            body:{
+                to:lineUid.value,
+                messages:[
+                    {
+                        "type":"text",
+                        "text":lineMessage.value
+                    }
+                ]
+            }
+        })
+        console.log(response)
+    }
+
+   
+
+
+</script>
