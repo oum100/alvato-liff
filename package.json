@@ -16,6 +16,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@line/liff": "^2.23.1"
+    "@line/liff": "^2.23.1",
+    "joi": "^17.12.1"
   }
 }

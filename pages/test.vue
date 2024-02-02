@@ -46,23 +46,23 @@
             throw new Error('Message not found')
         }
         
-        // const response = await useFetch('https://api.line.me/v2/bot/message/push',{
-        //     method:'POST',
-        //     headers:{
-        //         'Content-Type':'application/json',
-        //         'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
-        //     },
-        //     body:{
-        //         to:'Ued1d748291c0a2adb538023c2b541234',
-        //         messages:[
-        //             {
-        //                 "type":"text",
-        //                 "text":"Teerin Leepaiboon"
-        //             }
-        //         ]
-        //     }
-        // })
-        // console.log(response)
+        const response = await useFetch('https://api.line.me/v2/bot/message/push',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
+            },
+            body:{
+                to:'Ued1d748291c0a2adb538023c2b541234',
+                messages:[
+                    {
+                        "type":"text",
+                        "text":"Teerin Leepaiboon"
+                    }
+                ]
+            }
+        })
+        console.log(response)
 
     }catch(error){
         console.log('Error: ',error)

@@ -19,14 +19,14 @@
     import type { Profile } from '@liff/get-profile';
 
     const profile = ref<Profile | undefined>(undefined)
-    const lineUid = ref('')
+    const lineUid = ref('Ued1d748291c0a2adb538023c2b541234')
     const lineMessage = ref('')
 
     onMounted( async() =>{
         if(liff.isLoggedIn()){
             profile.value = await liff.getProfile()
             lineUid.value = profile.value.userId
-            console.log(profile.value)
+            // console.log(profile.value)
         }else{
             await liff.login()
         }
@@ -40,24 +40,32 @@
     }
 
     const send = async () =>{
-        console.log(lineMessage.value)
-        const response = await useFetch('https://api.line.me/v2/bot/message/push',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
-            },
+        // console.log(lineMessage.value)
+        // const response = await useFetch('https://api.line.me/v2/bot/message/push',{
+        //     method:'POST',
+        //     headers:{
+        //         'Content-Type':'application/json',
+        //         'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
+        //     },
+        //     body:{
+        //         to:lineUid.value,
+        //         messages:[
+        //             {
+        //                 "type":"text",
+        //                 "text":lineMessage.value
+        //             }
+        //         ]
+        //     }
+        // })
+        const {data, status} = await useFetch('/api/sendLinePush',{
+            method:"POST",
             body:{
-                to:lineUid.value,
-                messages:[
-                    {
-                        "type":"text",
-                        "text":lineMessage.value
-                    }
-                ]
+                'uid':lineUid.value,
+                'message':lineMessage.value
             }
         })
-        console.log(response)
+
+        console.log(status.value)
     }
 
    

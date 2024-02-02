@@ -3,6 +3,8 @@
 export default defineNuxtConfig({
   // devtools: { enabled: true },
 
+  // ssr:true,
+
   runtimeConfig: {
     LINE_CHANNEL_ACCESS_TOKEN: process.env.LINE_CHANNEL_ACCESS_TOKEN,
     appSecret: '123',
@@ -28,10 +30,10 @@ export default defineNuxtConfig({
       
   //   },
   //   corsHandler: {
-  //     origin: 'http://localhost:3000',
-  //     methods: '*',
-  //     allowHeaders: '*',
-  //     credentials: true,
+  //     origin: '*',
+  //     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  //     // allowHeaders: '*',
+  //     // credentials: true,
   //     preflight: {
   //       statusCode: 204
   //     },
@@ -39,11 +41,6 @@ export default defineNuxtConfig({
   //   },
   // },
 
-
-  // liff:{
-  //   liffId:'2003108655-0xrnX2Lx',
-  //   // mock:false
-  // },
 
   // When use plugins
   plugins: [
