@@ -19,14 +19,18 @@
     import type { Profile } from '@liff/get-profile';
 
     const profile = ref<Profile | undefined>(undefined)
+    const accessToken = ref()
     const lineUid = ref('Ued1d748291c0a2adb538023c2b541234')
+    
     const lineMessage = ref('')
 
     onMounted( async() =>{
         if(liff.isLoggedIn()){
             profile.value = await liff.getProfile()
+            accessToken.value = await liff.getAccessToken()
             lineUid.value = profile.value.userId
             // console.log(profile.value)
+            console.log(accessToken)
         }else{
             await liff.login()
         }
