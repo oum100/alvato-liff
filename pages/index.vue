@@ -12,7 +12,18 @@
         <input id="lineMessage" type="text" v-model="lineMessage" placeholder="message">
         <button @click="send">Send</button>
     </div>
+
+    <div id="scanner">
+        <button @click="scan">Scan</button>
+        <div>Result: {{ scanResult }} </div>
+    </div>
+    
 </template>
+<style>
+    #scanner{
+        margin-top: 2em;
+    }
+</style>
 
 <script setup lang="ts">
     import liff from '@line/liff';
@@ -23,6 +34,8 @@
     const lineUid = ref('Ued1d748291c0a2adb538023c2b541234')
     
     const lineMessage = ref('')
+
+    const scanResult = ref()
 
     onMounted( async() =>{
         if(liff.isLoggedIn()){
@@ -44,23 +57,6 @@
     }
 
     const send = async () =>{
-        // console.log(lineMessage.value)
-        // const response = await useFetch('https://api.line.me/v2/bot/message/push',{
-        //     method:'POST',
-        //     headers:{
-        //         'Content-Type':'application/json',
-        //         'Authorization':`Bearer ${useRuntimeConfig().LINE_CHANNEL_ACCESS_TOKEN}`
-        //     },
-        //     body:{
-        //         to:lineUid.value,
-        //         messages:[
-        //             {
-        //                 "type":"text",
-        //                 "text":lineMessage.value
-        //             }
-        //         ]
-        //     }
-        // })
         const {data, status} = await useFetch('/api/sendLinePush',{
             method:"POST",
             body:{
@@ -72,6 +68,18 @@
         console.log(status.value)
     }
 
+    const scan = async() => {
+        liff
+        .scanCodeV2()
+        .then((result) => {
+            // result = { value: "" }
+            scanResult.value = result.value
+            console.log("scanResult: ",result)
+        })
+        .catch((error) => {
+            console.log("error", error);
+        });
+    }
    
 
 
