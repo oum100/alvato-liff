@@ -40,7 +40,7 @@
     onMounted( async() =>{
         if(liff.isLoggedIn()){
             profile.value = await liff.getProfile()
-            accessToken.value = await liff.getAccessToken()
+            // accessToken.value = await liff.getAccessToken()
             lineUid.value = profile.value.userId
             // console.log(profile.value)
             // console.log(accessToken)
@@ -65,7 +65,7 @@
             }
         })
 
-        console.log(status.value)
+        console.log('send status: ',status.value)
     }
 
     const scan = async() => {
