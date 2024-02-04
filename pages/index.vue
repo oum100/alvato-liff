@@ -69,16 +69,18 @@
     }
 
     const scan = async() => {
-        liff
-        .scanCodeV2()
-        .then((result) => {
-            // result = { value: "" }
-            scanResult.value = result.value
-            console.log("scanResult: ",result)
-        })
-        .catch((error) => {
-            console.log("error", error);
-        });
+        scanResult.value = 'test button'
+        // liff
+        // .scanCodeV2()
+        // .then((result) => {
+        //     // result = { value: "" }
+        //     scanResult.value = result.value
+        //     console.log("scanResult: ",result)
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
+
     }
    
 
