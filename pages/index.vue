@@ -43,7 +43,7 @@
             accessToken.value = await liff.getAccessToken()
             lineUid.value = profile.value.userId
             // console.log(profile.value)
-            console.log(accessToken)
+            // console.log(accessToken)
         }else{
             await liff.login()
         }
