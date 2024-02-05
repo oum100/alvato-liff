@@ -10,13 +10,21 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@sidebase/nuxt-auth": "^0.6.7",
     "nuxt": "^3.9.3",
+    "nuxt-quasar-ui": "^2.0.7",
     "nuxt-security": "^1.0.1",
     "vue": "^3.4.14",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@line/liff": "^2.23.1",
-    "joi": "^17.12.1"
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.9.1",
+    "@quasar/extras": "^1.16.9",
+    "joi": "^17.12.1",
+    "pinia": "^2.1.7",
+    "prisma": "^5.9.1",
+    "quasar": "^2.14.3"
   }
 }

@@ -16,8 +16,10 @@ export default defineNuxtConfig({
   },
 
   modules:[
+    'nuxt-quasar-ui',
     // 'nuxt-security'
   ],
+
 
   // security: {
   //   headers: {
@@ -41,6 +43,20 @@ export default defineNuxtConfig({
   //   },
   // },
 
+  quasar: {
+    plugins: [
+      'BottomSheet',
+      'Dialog',
+      'Loading',
+      'LoadingBar',
+      'Notify',
+      'Dark',
+    ],
+    extras: {
+      font: 'roboto-font',
+      fontIcons: ['material-icons'],
+    }
+  },
 
   // When use plugins
   plugins: [
