@@ -14,19 +14,19 @@
             <q-card-section>
                 <div class="row items-center">
                     <div class="col-4  text-center">
-                        <q-avatar color="red" text-color="white" size="60px">10</q-avatar>
+                        <q-avatar color="red" text-color="white" size="60px" font-size="35px">{{ $route.query.id }}</q-avatar>
                     </div>
                     <div class="col-8 ">
-                        <span class="text-h4 q-mx-sm">DM-010</span>
+                        <span class="text-h4 q-mx-sm">{{ $route.query.machine }}</span>
                         <div class="text-h6 q-mx-sm">10KG</div>
                     </div>
                 </div>
             </q-card-section>
             <div class="row items-center justify-center text-h4">
-                Selected: 30
+                Selected: {{ selected }}
             </div>
             <div class="row items-center justify-center q-my-sm">
-                <q-btn rounded class="bg-deep-orange-7" style="width:240px" >
+                <q-btn rounded class="bg-deep-orange-10" style="width:240px">
                     <div class="col-4 text-white">
                         <div class="text-h4">30</div>
                         <div class="text-subtitle2">Price</div>
@@ -82,7 +82,8 @@
 <script setup lang="ts">
     const route = useRoute()
 
-    
+    const selected = ref('30')
+
     
 
 </script>
