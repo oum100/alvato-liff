@@ -40,8 +40,8 @@
     onMounted( async() =>{
         if(liff.isLoggedIn()){
             profile.value = await liff.getProfile()
-            // accessToken.value = await liff.getAccessToken()
             lineUid.value = profile.value.userId
+            // accessToken.value = await liff.getAccessToken()
             // console.log(profile.value)
             // console.log(accessToken)
         }else{
@@ -70,16 +70,16 @@
 
     const scan = async() => {
         scanResult.value = 'test button'
-        // liff
-        // .scanCodeV2()
-        // .then((result) => {
-        //     // result = { value: "" }
-        //     scanResult.value = result.value
-        //     console.log("scanResult: ",result)
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
+        liff
+        .scanCodeV2()
+        .then((result) => {
+            // result = { value: "" }
+            scanResult.value = result.value
+            console.log("scanResult: ",result)
+        })
+        .catch((error) => {
+            console.log("error", error);
+        });
 
     }
    

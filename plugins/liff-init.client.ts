@@ -27,13 +27,6 @@ export default defineNuxtPlugin( nuxtApp => {
     const initResult = liff.init({liffId:'2003108655-0xrnX2Lx'}) // Use own liffId
     .then(() => {
         console.log('liff initial was done');
-        // console.log(initResult)
-        // console.log(liff.isLoggedIn());
-        // console.log(liff.getLanguage());
-        // console.log(liff.getVersion());
-        // console.log(liff.isInClient());
-        // console.log(liff.getOS());
-        // console.log(liff.getLineVersion());
         if (!liff.isLoggedIn()) {
             liff.login();
         }
