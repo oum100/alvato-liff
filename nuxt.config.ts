@@ -17,6 +17,8 @@ export default defineNuxtConfig({
 
   modules:[
     'nuxt-quasar-ui',
+    '@nuxtjs/google-fonts',
+    '@pinia/nuxt',
     // 'nuxt-security'
   ],
 
@@ -56,6 +58,14 @@ export default defineNuxtConfig({
       font: 'roboto-font',
       fontIcons: ['material-icons'],
     }
+  },
+
+  pinia: {
+    storesDirs: ['./stores/**'],
+  },
+
+  googleFonts: {
+    // Options
   },
 
   // When use plugins
