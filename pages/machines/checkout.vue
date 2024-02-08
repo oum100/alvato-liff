@@ -12,8 +12,8 @@
         
     </div>    
 
-    <div class="row justify-center q-mt-xl">
-        <div class="text-h4 text-center">เลือกการชำระเงิน</div>
+    <div class="row justify-center q-mt-md">
+        <div class="text-h4 text-center">เลือกวิธีชำระเงิน</div>
     </div>
     <div class="row justify-center q-mt-xs">    
         <div class="text-h6 text-center">Select Payment</div>
