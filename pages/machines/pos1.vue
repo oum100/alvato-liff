@@ -1,14 +1,23 @@
 <template>
-    <div class="row justify-center q-mt-md">
-        <div class="text-h4 text-center">เลือกบริการ</div>
+    <div class="row justify-center q-mt-md ">
+        <div class="text-h4 text-weight-bold">Hello {{ profile?.displayName }}</div>
     </div>
-    <div class="row justify-center q-mt-xs">    
-        <div class="text-h6 text-center">Select Service</div>
+    <div class="row justify-center q-mt-md ">
+        <q-avatar size="100px"><img :src="profile?.pictureUrl"></q-avatar>
+    </div>    
+
+    <div v-if="store.displayThai" class="row justify-center q-mt-md">
+        <div class="text-h5 text-center">กรุณาเลือกบริการ</div>
     </div>
-    <div class="row justify-center q-mt-xs">
-        <div class="text-h6 text-center">選擇服務</div>
+    <div v-if="store.displayEnglish" class="row justify-center q-mt-xs">    
+        <div class="text-h6 text-center">Please Select Service.</div>
+    </div>
+    <div v-if="store.displayChinese" class="row justify-center q-mt-xs">
+        <div class="text-h6 text-center">請選擇服務</div>
     </div>
         
+
+
     <div class="row justify-center q-mt-xs">
         <q-card style="width:100%; max-width:280px;" >
             <q-img src="/images/kiosk/NewDryer-Blue.png">
@@ -22,18 +31,18 @@
                     </div>
                 
                     <div class="text-h4 q-mt-md">
-                        Price: {{ selectedPrice }}
+                        Price(฿): {{ selectedPrice }}
                     </div>
 
                     <div class="text-h6 q-mr-xl">
-                        Time: {{srvTime}} mins 
+                        Time(Mins): {{srvTime}} 
                     </div>
 
                     <div v-if="machine.type=='WASHER'" class="text-h6 q-mr-xl">
-                        Water: {{ waterTemp }} 
+                        Water(°C): {{ waterTemp }} 
                     </div>
                     <div v-if="machine.type=='DRYER'" class="text-h6 q-mr-xl">
-                        Temp: 60° - 80°
+                        Temp(°C): 60-80
                     </div>
 
                             
@@ -71,6 +80,8 @@
 
 <script setup lang="ts">
     import {washpointStore} from '@/stores/myStore'
+    import liff from '@line/liff';
+    import type { Profile } from '@liff/get-profile';
 
     const store = washpointStore()
     
@@ -81,8 +92,14 @@
     const route = useRoute()
     const selectedPrice = ref('40')
     const srvTime = ref('60')
-    const waterTemp = ref('30°')
+    const waterTemp = ref('30')
     const machineName = ref('')
+
+    const selectedProduct = ref({
+        price:'',
+        srvTime:'',
+        temp:''
+    })
 
     machineName.value = String(route.query.machine)
     // Find and get machine information for API 
@@ -96,14 +113,28 @@
         disableMachine:false,
         selectPrice:'40',
         products:[
-            {product: '60M', price:40, stime:'60', water:'30°', label:'40$', value:'40' },
-            {product: '75M', price:50, stime:'75', water:'40°', label:'50$', value:'50' },
-            {product: '90M', price:60, stime:'90', water:'60°', label:'60$', value:'60' },
+            {product: '60M', price:40, stime:'60', water:'30', label:'40฿', value:'40' },
+            {product: '75M', price:50, stime:'75', water:'40', label:'50฿', value:'50' },
+            {product: '90M', price:60, stime:'90', water:'60', label:'60฿', value:'60' },
         ]
     })
-    
 
-    
+
+    const profile = ref<Profile | undefined>(undefined)
+
+
+    onMounted( async() =>{
+        if(liff.isLoggedIn()){
+            profile.value = await liff.getProfile()
+            // lineUid.value = profile.value.userId
+            // accessToken.value = await liff.getAccessToken()
+            console.log(profile.value)
+            // console.log(accessToken)
+      
+        }else{
+            await liff.login()
+        }
+   })    
 
 
     
@@ -124,6 +155,8 @@
         store.selectedPrice = selectedPrice.value
         store.srvTime = srvTime.value
         store.waterTemp = waterTemp.value
+
+
 
 
         // console.log("checkout: ",)
