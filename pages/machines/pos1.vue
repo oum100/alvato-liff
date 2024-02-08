@@ -3,7 +3,17 @@
         <div class="text-h4 text-weight-bold">Hello {{ profile?.displayName }}</div>
     </div>
     <div class="row justify-center q-mt-md ">
-        <q-avatar size="100px"><img :src="profile?.pictureUrl"></q-avatar>
+        <q-avatar size="80px"><img :src="profile?.pictureUrl">
+            <q-badge floating rounded color="red">
+                <q-icon
+                    name="shopping_cart"
+                    size="20px"
+                    class="q-ml-xs"
+                />
+                {{ itemInCart }}
+            </q-badge>
+
+        </q-avatar>
     </div>    
 
     <div v-if="store.displayThai" class="row justify-center q-mt-md">
@@ -19,14 +29,14 @@
 
 
     <div class="row justify-center q-mt-xs">
-        <q-card style="width:100%; max-width:280px;" >
-            <q-img src="/images/kiosk/NewDryer-Blue.png">
+        <q-card style="width:100%; max-width:280px;"  >
+            <q-img :src="machineImage"> 
                 <div class="row items-center absolute-top">
                     <div class="col-4  text-center">
                         <q-avatar color="red" text-color="white" size="60px" font-size="40px" class="text-weight-bold">{{ machine.id }}</q-avatar>
                     </div>
                     <div class="col-8 ">
-                        <span class="text-h4 text-weight-bold q-mx-sm">{{ $route.query.machine }}</span>
+                        <span class="text-h4 text-weight-bold q-mx-sm">{{ machine.name }}</span><br/>
                         <div class="text-h6 q-mx-sm">{{machine.type}} {{ machine.size }}</div>
                     </div>
                 
@@ -58,12 +68,17 @@
                             text-color="white"
                             :options=machine.products
                             @click="btnToggleClick(selectedPrice)"
+                            :disable="machineDisable"
                         />
                     </div> 
                         
 
                     <div class="q-mx-auto q-my-md q-pt-md">
-                        <q-btn rounded class="bg-blue-7" style="width:220px" @click="btnCheckOut(selectedPrice)">
+                        <q-btn rounded class="bg-blue-7" 
+                        style="width:220px" 
+                        @click="btnCheckOut(selectedPrice)"
+                        :disabled="machineDisable"
+                        >
                                 <div class="text-h6 text-white">
                                     CHECK OUT
                                 </div>
@@ -94,12 +109,14 @@
     const srvTime = ref('60')
     const waterTemp = ref('30')
     const machineName = ref('')
+    const machineImage = ref('')
+    const machineDisable = ref(false)
+    
 
-    const selectedProduct = ref({
-        price:'',
-        srvTime:'',
-        temp:''
-    })
+    const selectedProduct = ref([
+        {price:'40',srvTime:'60',wTemp:'60-80'}
+    ])
+    const itemInCart = ref(0)
 
     machineName.value = String(route.query.machine)
     // Find and get machine information for API 
@@ -110,7 +127,6 @@
         type:'DRYER',
         size:'8KG',
         status:"ready",
-        disableMachine:false,
         selectPrice:'40',
         products:[
             {product: '60M', price:40, stime:'60', water:'30', label:'40฿', value:'40' },
@@ -133,6 +149,23 @@
       
         }else{
             await liff.login()
+        }
+
+        itemInCart.value = selectedProduct.value.length
+
+        //Set image to display
+        if(machine.value.type == 'DRYER'){
+            machineImage.value = '/images/kiosk/NewDryer-Blue.png'
+        }
+        else if(machine.value.type == 'WASHER'){
+            machineImage.value = '/images/kiosk/NewWasher-Green.png'
+        }
+
+
+        if(machine.value.status == 'ready'){
+            machineDisable.value = false
+        }else if(machine.value.status == 'offline' || machine.value.status == 'busy'){
+            machineDisable.value = true
         }
    })    
 
