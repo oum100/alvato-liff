@@ -17,10 +17,10 @@
                     <div class="text-h5 text-weight-bold">Order Details</div>
                     <div class="text-h6 q-mt-sm q-mb-xs">DRYER</div>
                     <div class="text-subtitle1 text-grey-8 text-weight-medium">ID: DM-001</div>
-                    <div class="text-subtitle1 text-grey-8 text-weight-medium">Time(Mins): 60</div>
-                    <div class="text-subtitle1 text-grey-8 text-weight-medium">Temp(°C): 60-80</div>   
+                    <div class="text-subtitle1 text-grey-8 text-weight-medium">Time(Mins): {{ store.srvTime }}</div>
+                    <div class="text-subtitle1 text-grey-8 text-weight-medium">Temp(°C): {{ store.waterTemp }}</div>   
                     <div class="row  text-weight-bold">
-                        <q-chip color="red" text-color="white" icon="point_of_sale"> Price(฿): 40</q-chip>
+                        <q-chip color="red" text-color="white" icon="point_of_sale"> Price(฿): {{ store.selectedPrice }}</q-chip>
                     </div>
                 </q-card-section>
 
@@ -43,7 +43,11 @@
                 </div> -->
   
 
-                <q-btn flat color="red" > Cancel </q-btn>
+                <q-btn flat color="red" to="/machines/pos1"> Cancel 
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Go back to select service
+                    </q-tooltip>
+                </q-btn>
                 <q-btn flat round icon="payments">
                     <q-tooltip anchor="top middle" self="bottom middle">
                         Cash
@@ -78,5 +82,5 @@
 
     const store = washpointStore()
 
-    const selectedPrice = store.selectedPrice
+    
 </script>

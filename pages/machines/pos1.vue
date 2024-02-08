@@ -141,12 +141,14 @@
 
     onMounted( async() =>{
         if(liff.isLoggedIn()){
-            profile.value = await liff.getProfile()
-            // lineUid.value = profile.value.userId
-            // accessToken.value = await liff.getAccessToken()
-            console.log(profile.value)
-            // console.log(accessToken)
-      
+            console.log(profile.value?.userId)
+            if(profile.value?.userId === undefined){
+                profile.value = await liff.getProfile()
+                // lineUid.value = profile.value.userId
+                // accessToken.value = await liff.getAccessToken()
+                console.log(profile.value)
+                // console.log(accessToken)
+            }
         }else{
             await liff.login()
         }
@@ -188,9 +190,6 @@
         store.selectedPrice = selectedPrice.value
         store.srvTime = srvTime.value
         store.waterTemp = waterTemp.value
-
-
-
 
         // console.log("checkout: ",)
         router.push({path:"/machines/checkout"})
