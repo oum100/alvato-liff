@@ -3,7 +3,7 @@
         <div class="text-h4 text-weight-bold">Hello {{ profile?.displayName }}</div>
     </div>
     <div class="row justify-center q-mt-md ">
-        <q-avatar size="80px"><img :src="profile?.pictureUrl">
+        <q-avatar v-if="profile !== undefined"  size="80px"><img :src="profile?.pictureUrl">
             <q-badge floating rounded color="red">
                 <q-icon
                     name="shopping_cart"
@@ -12,8 +12,18 @@
                 />
                 {{ itemInCart }}
             </q-badge>
-
         </q-avatar>
+        <q-avatar v-else size="80px"><img src="/images/users/Alva-Hi.png">
+            <q-badge floating rounded color="red">
+                <q-icon
+                    name="shopping_cart"
+                    size="20px"
+                    class="q-ml-xs"
+                />
+                {{ itemInCart }}
+            </q-badge>
+        </q-avatar>        
+        
     </div>    
 
     <div v-if="store.displayThai" class="row justify-center q-mt-md">
@@ -33,11 +43,11 @@
             <q-img :src="machineImage"> 
                 <div class="row items-center absolute-top">
                     <div class="col-4  text-center">
-                        <q-avatar color="red" text-color="white" size="60px" font-size="40px" class="text-weight-bold">{{ machine.id }}</q-avatar>
+                        <q-avatar color="red" text-color="white" size="60px" font-size="40px" class="text-weight-bold">{{ asset.id }}</q-avatar>
                     </div>
                     <div class="col-8 ">
-                        <span class="text-h4 text-weight-bold q-mx-sm">{{ machine.name }}</span><br/>
-                        <div class="text-h6 q-mx-sm">{{machine.type}} {{ machine.size }}</div>
+                        <span class="text-h4 text-weight-bold q-mx-sm">{{ asset.name }}</span><br/>
+                        <div class="text-h6 q-mx-sm">{{asset.type}} {{ asset.size }}</div>
                     </div>
                 
                     <div class="text-h4 q-mt-md">
@@ -48,10 +58,10 @@
                         Time(Mins): {{srvTime}} 
                     </div>
 
-                    <div v-if="machine.type=='WASHER'" class="text-h6 q-mr-xl">
+                    <div v-if="asset.type=='WASHER'" class="text-h6 q-mr-xl">
                         Water(°C): {{ waterTemp }} 
                     </div>
-                    <div v-if="machine.type=='DRYER'" class="text-h6 q-mr-xl">
+                    <div v-if="asset.type=='DRYER'" class="text-h6 q-mr-xl">
                         Temp(°C): 60-80
                     </div>
 
@@ -66,7 +76,7 @@
                             toggle-color="deep-orange-10"
                             color="deep-orange-7"
                             text-color="white"
-                            :options=machine.products
+                            :options=asset.products
                             @click="btnToggleClick(selectedPrice)"
                             :disable="machineDisable"
                         />
@@ -94,34 +104,34 @@
 
 
 <script setup lang="ts">
-    import {washpointStore} from '@/stores/myStore'
+    import {alvatoStore} from '@/stores/alvatoStore'
     import liff from '@line/liff';
     import type { Profile } from '@liff/get-profile';
 
-    const store = washpointStore()
+    const store = alvatoStore()
     
     useHead({
         title: "Machine POS",
     });
 
     const route = useRoute()
-    const selectedPrice = ref('40')
-    const srvTime = ref('60')
-    const waterTemp = ref('30')
+    const selectedPrice = ref('')
+    const srvTime = ref('')
+    const waterTemp = ref('')
     const machineName = ref('')
     const machineImage = ref('')
     const machineDisable = ref(false)
     
 
-    const selectedProduct = ref([
-        {price:'40',srvTime:'60',wTemp:'60-80'}
-    ])
+    selectedPrice.value = store.selectedPrice
+
+    const selectedProduct = ref([])
     const itemInCart = ref(0)
 
     machineName.value = String(route.query.machine)
     // Find and get machine information for API 
 
-    const machine = ref({
+    const asset = ref({
         name:'DM-001',
         id:'01',
         type:'DRYER',
@@ -138,16 +148,13 @@
 
     const profile = ref<Profile | undefined>(undefined)
 
-
     onMounted( async() =>{
         if(liff.isLoggedIn()){
-            console.log(profile.value?.userId)
-            if(profile.value?.userId === undefined){
+            profile.value = store.getLineProfile
+            if(profile.value === undefined){
                 profile.value = await liff.getProfile()
-                // lineUid.value = profile.value.userId
-                // accessToken.value = await liff.getAccessToken()
                 console.log(profile.value)
-                // console.log(accessToken)
+                store.setLineProfile(profile.value)
             }
         }else{
             await liff.login()
@@ -156,17 +163,17 @@
         itemInCart.value = selectedProduct.value.length
 
         //Set image to display
-        if(machine.value.type == 'DRYER'){
+        if(asset.value.type == 'DRYER'){
             machineImage.value = '/images/kiosk/NewDryer-Blue.png'
         }
-        else if(machine.value.type == 'WASHER'){
+        else if(asset.value.type == 'WASHER'){
             machineImage.value = '/images/kiosk/NewWasher-Green.png'
         }
 
 
-        if(machine.value.status == 'ready'){
+        if(asset.value.status == 'ready'){
             machineDisable.value = false
-        }else if(machine.value.status == 'offline' || machine.value.status == 'busy'){
+        }else if(asset.value.status == 'offline' || asset.value.status == 'busy'){
             machineDisable.value = true
         }
    })    
@@ -174,7 +181,7 @@
 
     
     const  btnToggleClick = (val:string) => { 
-        machine.value.products.forEach( (value,key) => {
+        asset.value.products.forEach( (value,key) => {
             // console.log("item:",value.price,"===" , val);
             if(value.price === parseInt(val)){
                 selectedPrice.value = String(value.price)

@@ -1,4 +1,17 @@
 <template>
+    <div class="row justify-center q-mt-md ">
+        <div class="text-h4 text-weight-bold">Hello {{ store.lineProfile?.displayName }}</div>
+    </div>
+    <div class="row justify-center q-mt-md ">
+        <q-avatar v-if="store.lineProfile !== undefined"  size="80px"><img :src="store.lineProfile?.pictureUrl">
+
+        </q-avatar>
+        <q-avatar v-else size="80px"><img src="/images/users/Alva-Hi.png">
+
+        </q-avatar>        
+        
+    </div>    
+
     <div class="row justify-center q-mt-xl">
         <div class="text-h4 text-center">เลือกการชำระเงิน</div>
     </div>
@@ -19,9 +32,11 @@
                     <div class="text-subtitle1 text-grey-8 text-weight-medium">ID: DM-001</div>
                     <div class="text-subtitle1 text-grey-8 text-weight-medium">Time(Mins): {{ store.srvTime }}</div>
                     <div class="text-subtitle1 text-grey-8 text-weight-medium">Temp(°C): {{ store.waterTemp }}</div>   
-                    <div class="row  text-weight-bold">
-                        <q-chip color="red" text-color="white" icon="point_of_sale"> Price(฿): {{ store.selectedPrice }}</q-chip>
-                    </div>
+                    <!-- <div class="row  text-weight-bold">
+                        <q-chip color="primary" class="glossy" text-color="white" icon="point_of_sale">
+                             Price(฿): {{ store.selectedPrice }}
+                        </q-chip>
+                    </div> -->
                 </q-card-section>
 
                  <q-card-section class="col-5 flex flex-center">
@@ -31,7 +46,14 @@
                         
                     />
                 </q-card-section>
+                
             </q-card-section>
+            <div class="row justify-center text-weight-bold q-mb-sm">
+                <q-chip color="primary" class="glossy" text-color="white" 
+                icon="point_of_sale" square>
+                        Price(฿): {{ store.selectedPrice }}
+                </q-chip>
+            </div>
 
             <q-separator />
 
@@ -42,45 +64,57 @@
                     <div class="text-h6 text-center">選擇付款方式</div>
                 </div> -->
   
-
-                <q-btn flat color="red" to="/machines/pos1"> Cancel 
-                    <q-tooltip anchor="top middle" self="bottom middle">
-                        Go back to select service
-                    </q-tooltip>
-                </q-btn>
-                <q-btn flat round icon="payments">
-                    <q-tooltip anchor="top middle" self="bottom middle">
+                <q-btn flat stack icon="payments" class="text-caption">
+                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
                         Cash
-                    </q-tooltip>
+                    </q-tooltip> -->
+                    Cash
                 </q-btn>
-                <q-btn flat round icon="qr_code_2">
-                    <q-tooltip anchor="top middle" self="bottom middle">
+                <q-btn flat stack icon="qr_code_2" class="text-caption">
+                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
                         Thai QR
-                    </q-tooltip>                  
+                    </q-tooltip>     -->
+                    ThaiQR              
                 </q-btn>
 
-                <q-btn flat round icon="qr_code">
-                    <q-tooltip anchor="top middle" self="bottom middle">
+                <q-btn flat stack icon="qr_code" class="text-caption">
+                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
                         Alipay
-                    </q-tooltip>
+                    </q-tooltip> -->
+                    Alipay
                 </q-btn>
-                <q-btn flat round icon="qr_code_scanner">
-                    <q-tooltip anchor="top middle" self="bottom middle">
+                <q-btn flat stack icon="qr_code_scanner" class="text-caption">
+                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
                         WeChat Pay
-                    </q-tooltip>
+                    </q-tooltip> -->
+                    WeChat
                 </q-btn>
                 
             </q-card-actions>
+            <q-card-actions align="around">
+                <q-btn color="red"  to="/machines/pos1" unelevated rounded style="width: 260px"> Cancel </q-btn>
+            </q-card-actions>
         </q-card>
     </div>
-
+    <div class="row justify-center q-mt-sm">
+        <q-btn @click="paid" color="green"> Clear </q-btn>
+    </div>
+    
+    
 
 </template>
 
 <script setup lang="ts">
-    import {washpointStore} from '@/stores/myStore'
+    import {alvatoStore} from '@/stores/alvatoStore'
 
-    const store = washpointStore()
+    const store = alvatoStore()
 
     
+    function paid(){
+        store.clearLineProfile()
+        //Thank you page with receipt send to customer
+    
+
+    }
+
 </script>
