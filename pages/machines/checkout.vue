@@ -13,7 +13,7 @@
     </div>    
 
     <div class="row justify-center q-mt-md">
-        <div class="text-h4 text-center">เลือกวิธีชำระเงิน</div>
+        <div class="text-h6 text-center">เลือกวิธีชำระเงิน</div>
     </div>
     <div class="row justify-center q-mt-xs">    
         <div class="text-h6 text-center">Select Payment</div>
@@ -49,10 +49,16 @@
                 
             </q-card-section>
             <div class="row justify-center text-weight-bold q-mb-sm">
-                <q-chip color="primary" class="glossy" text-color="white" 
+                <!-- <q-chip color="primary" class="glossy" text-color="white" 
                 icon="point_of_sale" square>
                         Price(฿): {{ store.selectedPrice }}
-                </q-chip>
+                </q-chip> -->
+                <q-btn outline unelevated rounded  style="width:240px" :ripple="false">               
+                    <q-icon name="point_of_sale" size="sm" color="red"/>
+                    <span class="text-subtitle1 q-mx-xs text-red text-weight-bold">Price(฿): {{ store.selectedPrice }}</span>
+                </q-btn>
+
+                
             </div>
 
             <q-separator />
@@ -64,41 +70,46 @@
                     <div class="text-h6 text-center">選擇付款方式</div>
                 </div> -->
   
-                <q-btn flat stack icon="payments" class="text-caption">
-                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
-                        Cash
-                    </q-tooltip> -->
+                <q-btn flat stack icon="payments" class="text-caption"> 
                     Cash
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Pay by Cash
+                    </q-tooltip>
                 </q-btn>
                 <q-btn flat stack icon="qr_code_2" class="text-caption">
-                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
-                        Thai QR
-                    </q-tooltip>     -->
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Pay by ThaiQR
+                    </q-tooltip>    
                     ThaiQR              
                 </q-btn>
 
                 <q-btn flat stack icon="qr_code" class="text-caption">
-                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
-                        Alipay
-                    </q-tooltip> -->
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Pay by AlipayQR
+                    </q-tooltip>
                     Alipay
                 </q-btn>
-                <q-btn flat stack icon="qr_code_scanner" class="text-caption">
-                    <!-- <q-tooltip anchor="top middle" self="bottom middle">
-                        WeChat Pay
-                    </q-tooltip> -->
+                <q-btn flat stack icon="qr_code_scanner" class="text-caption ">
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Pay by WeChatQR
+                    </q-tooltip>
                     WeChat
                 </q-btn>
                 
             </q-card-actions>
             <q-card-actions align="around">
-                <q-btn color="red"  to="/machines/pos1" unelevated rounded style="width: 260px"> Cancel </q-btn>
+                <q-btn   to="/machines/pos1" flat > 
+                    Cancel 
+                    <q-tooltip anchor="top middle" self="bottom middle">
+                        Go back to select service
+                    </q-tooltip>
+                </q-btn>
             </q-card-actions>
         </q-card>
     </div>
-    <div class="row justify-center q-mt-sm">
+    <!-- <div class="row justify-center q-mt-sm">
         <q-btn @click="paid" color="green"> Clear </q-btn>
-    </div>
+    </div> -->
     
     
 

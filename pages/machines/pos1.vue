@@ -137,7 +137,8 @@
         type:'DRYER',
         size:'8KG',
         status:"ready",
-        selectPrice:'40',
+        image:'/images/kiosk/NewWasher-Green.png',
+        defaultPrice:'50',
         products:[
             {product: '60M', price:40, stime:'60', water:'30', label:'40฿', value:'40' },
             {product: '75M', price:50, stime:'75', water:'40', label:'50฿', value:'50' },
@@ -163,12 +164,14 @@
         itemInCart.value = selectedProduct.value.length
 
         //Set image to display
-        if(asset.value.type == 'DRYER'){
-            machineImage.value = '/images/kiosk/NewDryer-Blue.png'
-        }
-        else if(asset.value.type == 'WASHER'){
-            machineImage.value = '/images/kiosk/NewWasher-Green.png'
-        }
+        // if(asset.value.type == 'DRYER'){
+        //     machineImage.value = '/images/kiosk/NewDryer-Blue.png'
+        // }
+        // else if(asset.value.type == 'WASHER'){
+        //     machineImage.value = '/images/kiosk/NewWasher-Green.png'
+        // }
+
+        machineImage.value = asset.value.image
 
 
         if(asset.value.status == 'ready'){
